@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS volunteer;
+DROP TABLE IF EXISTS city;
+DROP TABLE IF EXISTS association;
+DROP TABLE IF EXISTS collect;
 DROP TABLE IF EXISTS test;
 
 
@@ -43,3 +47,8 @@ CREATE TABLE collect (
     FOREIGN KEY (city_id) REFERENCES city(city_id),
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteers_id)
 );
+
+INSERT INTO city (name) VALUES
+('Nantes'),
+('lyon');
+
