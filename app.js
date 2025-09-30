@@ -5,6 +5,10 @@ const port = 5000
 const { DatabaseSync } = require('node:sqlite');
 const db = new DatabaseSync('./database.db');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 let name = db.prepare(`SELECT * FROM volunteer`)
 
 app.get('/', (req, res) => {
@@ -12,6 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/collect', (req, res) => {
+  res.status(201).json({ status: "collect ajouté" });
   // console.log(req.body.volunteer_id);
   const insert = db.prepare('INSERT INTO collect (volunteer_id,date,city_id,nb_butt,nb_plastic,nb_glass,nb_metal,nb_electronic,nb_other) VALUES(?,?,?,?,?,?,?,?,?)');
   insert.run(
@@ -24,7 +29,7 @@ app.post('/collect', (req, res) => {
     req.body.nb_metal,
     req.body.nb_electronic,
     req.body.nb_other);
-  res.status(201)
+
 })
 
 app.listen(port, () => {
