@@ -66,3 +66,18 @@ INSERT INTO association (name, description, donation_value, image) VALUES
 ('Forest Guardians', 'Protection des forêts et reforestation à travers le monde.', 150,'🌳'),
 ('Wildlife Protectors', 'Protection des espèces menacées et préservation de leur habitat.', 200,'🦁'),
 ('Clean Air Initiative', 'Lutte contre la pollution de l''air et promotion des énergies propres.', 120,'🌬️');
+
+
+INSERT INTO volunteer 
+(firstname, lastname, email, password, city_id, current_donation_point, spend_donation_point, total_donation_point)
+VALUES
+('Alice', 'Dupont', 'alice.dupont@example.com', 'hashed_pwd1', 1, 120, 30, 150),
+('Marc', 'Lemoine', 'marc.lemoine@example.com', 'hashed_pwd2', 2, 200, 50, 250),
+('Sophie', 'Martin', 'sophie.martin@example.com', 'hashed_pwd3', 1, 90, 10, 100),
+('Julien', 'Moreau', 'julien.moreau@example.com', 'hashed_pwd4', 3, 300, 100, 400),
+('Claire', 'Petit', 'claire.petit@example.com', 'hashed_pwd5', 2, 75, 25, 100),
+('Nicolas', 'Roux', 'nicolas.roux@example.com', 'hashed_pwd6', 3, 40, 60, 100),
+('Emma', 'Fontaine', 'emma.fontaine@example.com', 'hashed_pwd7', 1, 250, 50, 300),
+('Lucas', 'Chevalier', 'lucas.chevalier@example.com', 'hashed_pwd8', 2, 180, 20, 200),
+('Manon', 'Girard', 'manon.girard@example.com', 'hashed_pwd9', 3, 50, 150, 200),
+('Hugo', 'Blanc', 'hugo.blanc@example.com', 'hashed_pwd10', 1, 400, 100, 500);
