@@ -29,6 +29,7 @@ CREATE TABLE association (
     association_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
+    image TEXT NOT NULL,
     donation_value INTEGER NOT NULL,
     total_donation INTEGER
 );
@@ -60,8 +61,8 @@ INSERT INTO city (name) VALUES
 ('Bordeaux'),
 ('Lille');
 
-INSERT INTO association (name, description, donation_value) VALUES
-('Ocean Cleanup', 'Association dédiée au nettoyage des océans et à la protection de la vie marine.', 100),
-('Forest Guardians', 'Protection des forêts et reforestation à travers le monde.', 150),
-('Wildlife Protectors', 'Protection des espèces menacées et préservation de leur habitat.', 200),
-('Clean Air Initiative', 'Lutte contre la pollution de l''air et promotion des énergies propres.', 120);
+INSERT INTO association (name, description, donation_value, image) VALUES
+('Ocean Cleanup', 'Association dédiée au nettoyage des océans et à la protection de la vie marine.', 100,'🌊'),
+('Forest Guardians', 'Protection des forêts et reforestation à travers le monde.', 150,'🌳'),
+('Wildlife Protectors', 'Protection des espèces menacées et préservation de leur habitat.', 200,'🦁'),
+('Clean Air Initiative', 'Lutte contre la pollution de l''air et promotion des énergies propres.', 120,'🌬️');
