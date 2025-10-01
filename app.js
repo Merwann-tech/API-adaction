@@ -17,8 +17,8 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/dashboard', (req, res) => {
-  let date = req.body.date
+app.get('/dashboard/:date', (req, res) => {
+  let date = req.params.date
   let month = db.prepare(`SELECT
     SUM(nb_butt) as nb_butt,
     SUM(nb_plastic) as nb_plastic,
@@ -46,7 +46,7 @@ app.post('/collect', (req, res) => {
     req.body.nb_metal,
     req.body.nb_electronic,
     req.body.nb_other);
-  
+
   addDonationPoint(req.body.volunteer_id,req.body.nb_butt,1)
   addDonationPoint(req.body.volunteer_id,req.body.nb_plastic,2)
   addDonationPoint(req.body.volunteer_id,req.body.nb_glass,3)
