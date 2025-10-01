@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
-const port = 5000
+const port = 3000
 
 const { DatabaseSync } = require('node:sqlite');
+const test = require('node:test');
 const db = new DatabaseSync('./database.db');
 
 app.use(express.json());
@@ -30,6 +31,7 @@ app.get('/dashboard', (req, res) => {
 })
 
 
+
 app.post('/collect', (req, res) => {
   res.status(201).json({ status: "collect ajouté" });
   // console.log(req.body.volunteer_id);
@@ -44,13 +46,49 @@ app.post('/collect', (req, res) => {
     req.body.nb_metal,
     req.body.nb_electronic,
     req.body.nb_other);
-
+  
+  addDonationPoint(req.body.volunteer_id,req.body.nb_butt,1)
+  addDonationPoint(req.body.volunteer_id,req.body.nb_plastic,2)
+  addDonationPoint(req.body.volunteer_id,req.body.nb_glass,3)
+  addDonationPoint(req.body.volunteer_id,req.body.nb_metal,4)
+  addDonationPoint(req.body.volunteer_id,req.body.nb_electronic,5)
+  addDonationPoint(req.body.volunteer_id,req.body.nb_other,6)
 })
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
+function addDonationPoint(userID,nbWaste,wasteID){
+  let nbPoint = 0
+  if (wasteID == 1){
+    nbPoint = nbWaste * 10
+  }else if(wasteID == 2){
+    nbPoint = nbWaste * 30 
+  }else if(wasteID == 3){
+    nbPoint = nbWaste * 20 
+  }else if(wasteID == 4){
+    nbPoint = nbWaste * 15 
+  }else if(wasteID == 5){
+    nbPoint = nbWaste * 15 
+  }else if(wasteID == 6){
+    nbPoint = nbWaste * 5 
+  }
+  db.exec(
+    `UPDATE volunteer
+    SET current_donation_point = current_donation_point + ${nbPoint}
+    WHERE volunteers_id = ${userID}`
+  )
+  updateTotalPoint(userID)
+}
+
+function updateTotalPoint(userID){
+  db.exec(
+    `UPDATE volunteer
+    SET total_donation_point = current_donation_point + spend_donation_point
+    WHERE volunteers_id = ${userID}`
+  )
+}
 
 
 // db.exec(`
