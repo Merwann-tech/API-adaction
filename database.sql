@@ -31,7 +31,7 @@ CREATE TABLE association (
     description TEXT NOT NULL,
     image TEXT NOT NULL,
     donation_value INTEGER NOT NULL,
-    total_donation INTEGER
+    total_donation INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE collect (

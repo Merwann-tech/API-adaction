@@ -8,7 +8,24 @@ const db = new DatabaseSync('./database.db');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.post('/donate', (req, res) => {
+    res.status(201).json({ status: "donation effectuée." });
+  let donation = getDonationPoint(req.body.association_id);
+  db.exec(`
+    UPDATE volunteer 
+    SET current_donation_point = current_donation_point - ${donation},
+    spend_donation_point = spend_donation_point + ${donation}
+    WHERE volunteers_id = ${req.body.volunteer_id}`)
+  db.exec(`
+    UPDATE association
+    SET total_donation = total_donation + ${donation}
+    WHERE association_id = ${req.body.association_id}`)
+});
 
+function getDonationPoint(associationID){
+  let point = db.prepare(`SELECT donation_value FROM association WHERE association_id = ${associationID}`)
+  return point.get().donation_value
+}
 
 app.get('/volunteer', (req, res) => {
   let name = db.prepare(`SELECT * FROM volunteer`)
