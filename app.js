@@ -9,9 +9,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-let name = db.prepare(`SELECT * FROM volunteer`)
+
 
 app.get('/', (req, res) => {
+  let name = db.prepare(`SELECT * FROM volunteer`)
   res.send(name.all())
 })
 
