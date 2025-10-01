@@ -3,7 +3,6 @@ const app = express()
 const port = 3000
 
 const { DatabaseSync } = require('node:sqlite');
-const test = require('node:test');
 const db = new DatabaseSync('./database.db');
 
 app.use(express.json());
@@ -11,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.get('/', (req, res) => {
+app.get('/volunteer', (req, res) => {
   let name = db.prepare(`SELECT * FROM volunteer`)
   res.send(name.all())
 })
@@ -59,7 +58,6 @@ app.get('/volunteer/point/:id', (req, res) => {
 
 app.post('/collect', (req, res) => {
   res.status(201).json({ status: "collect ajouté" });
-  // console.log(req.body.volunteer_id);
   const insert = db.prepare('INSERT INTO collect (volunteer_id,date,city_id,nb_butt,nb_plastic,nb_glass,nb_metal,nb_electronic,nb_other) VALUES(?,?,?,?,?,?,?,?,?)');
   insert.run(
     req.body.volunteer_id,
@@ -80,9 +78,7 @@ app.post('/collect', (req, res) => {
   addDonationPoint(req.body.volunteer_id,req.body.nb_other,6)
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+
 
 function addDonationPoint(userID,nbWaste,wasteID){
   let nbPoint = 0
@@ -116,15 +112,6 @@ function updateTotalPoint(userID){
 }
 
 
-// db.exec(`
-// CREATE TABLE test (
-//     id INTEGER PRIMARY KEY AUTOINCREMENT,
-//     name TEXT NOT NULL
-// );
-// `);
-// const insert = db.prepare('INSERT INTO test (name) VALUES (?)');
-// // Execute the prepared statement with bound values.
-// insert.run('margot');
-// insert.run('elies');
-
-
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
