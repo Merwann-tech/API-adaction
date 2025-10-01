@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 app.get('/association', (req, res) => {
   let name = db.prepare(`SELECT * FROM association`)
-  res.send({test:'blabla'})
+  res.send(name.all())
 })
 
 app.post('/collect', (req, res) => {
