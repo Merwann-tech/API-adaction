@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
   res.send(name.all())
 })
 
+app.get('/association', (req, res) => {
+  let name = db.prepare(`SELECT * FROM association`)
+  res.send({test:'blabla'})
+})
+
 app.post('/collect', (req, res) => {
   res.status(201).json({ status: "collect ajouté" });
   // console.log(req.body.volunteer_id);
