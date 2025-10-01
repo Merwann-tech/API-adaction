@@ -10,11 +10,25 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-
 app.get('/', (req, res) => {
   let name = db.prepare(`SELECT * FROM volunteer`)
   res.send(name.all())
 })
+
+
+app.get('/dashboard', (req, res) => {
+  let date = req.body.date
+  let month = db.prepare(`SELECT
+    SUM(nb_butt) as nb_butt,
+    SUM(nb_plastic) as nb_plastic,
+    SUM(nb_glass) as nb_glass,
+    SUM(nb_metal) as nb_metal,
+    SUM(nb_electronic) as nb_electronic,
+    SUM(nb_other) as nb_other
+    FROM collect WHERE strftime('%Y-%m', date) = '${date}'; `)
+  res.send(month.all())
+})
+
 
 app.post('/collect', (req, res) => {
   res.status(201).json({ status: "collect ajouté" });
