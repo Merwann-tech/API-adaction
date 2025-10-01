@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 5000
+const port = 3000
 
 const { DatabaseSync } = require('node:sqlite');
 const db = new DatabaseSync('./database.db');
@@ -17,9 +17,30 @@ app.get('/', (req, res) => {
 })
 
 app.get('/association', (req, res) => {
-  let name = db.prepare(`SELECT * FROM association`)
-  res.send(name.all())
+  try {
+    const stmt = db.prepare(`SELECT * FROM association`);
+    const associations = stmt.all();
+    res.status(200).json(associations);
+  } catch (error) {
+    res.status(500).json({ erreur: error.message });
+  }
 })
+
+app.get('/volunteer/point/:id', (req, res) => {
+
+    const volunteerId = Number(req.params.id);
+    const stmt = db.prepare(`
+      SELECT volunteers_id AS id,
+             current_donation_point AS current,
+             spend_donation_point AS spend,
+             total_donation_point AS total
+      FROM volunteer
+      WHERE volunteers_id = ?
+    `);
+
+    const row = stmt.get(volunteerId);
+    res.status(200).json(row);
+});
 
 app.post('/collect', (req, res) => {
   res.status(201).json({ status: "collect ajouté" });
