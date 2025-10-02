@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { listVolunteers, getVolunteerPoints} = require('../services/volunteerServices');
+const { listVolunteers, getVolunteerPoints, getVolunteerByID} = require('../services/volunteerServices');
 
 
 router.get('/', (req, res) => {
@@ -14,6 +14,10 @@ router.get('/point/:id', (req, res) => {
     res.status(200).json(row);
 });
 
-
+router.get('/:id', (req, res) => {
+    const volunteerId = Number(req.params.id);
+    const row = getVolunteerByID(volunteerId);
+    res.status(200).json(row);
+});
 
 module.exports = router;

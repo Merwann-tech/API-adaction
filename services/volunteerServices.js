@@ -3,7 +3,12 @@ const { db } = require('../db');
 function listVolunteers() {
     let name = db.prepare(`SELECT * FROM volunteer`)
     return name.all()
-}
+};
+
+function getVolunteerByID(volunteerId) {
+    const volunteer = db.prepare(`SELECT * FROM volunteer WHERE volunteers_id = ${volunteerId}`);
+    return volunteer.get();
+};
 
 function getVolunteerPoints(volunteerId) {
     const stmt = db.prepare(`
@@ -18,4 +23,6 @@ function getVolunteerPoints(volunteerId) {
     return row;
 };
 
-module.exports = { listVolunteers, getVolunteerPoints};
+
+
+module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID };
