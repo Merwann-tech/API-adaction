@@ -2,8 +2,10 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const { DatabaseSync } = require('node:sqlite');
-const db = new DatabaseSync('./database.db');
+const { db } = require('./db');
+
+const routes = require('./routes')
+app.use('/', routes)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,10 +29,7 @@ function getDonationPoint(associationID){
   return point.get().donation_value
 }
 
-app.get('/volunteer', (req, res) => {
-  let name = db.prepare(`SELECT * FROM volunteer`)
-  res.send(name.all())
-})
+
 
 
 app.get('/dashboard/:date', (req, res) => {
@@ -57,21 +56,6 @@ app.get('/association', (req, res) => {
   }
 })
 
-app.get('/volunteer/point/:id', (req, res) => {
-
-    const volunteerId = Number(req.params.id);
-    const stmt = db.prepare(`
-      SELECT volunteers_id AS id,
-             current_donation_point AS current,
-             spend_donation_point AS spend,
-             total_donation_point AS total
-      FROM volunteer
-      WHERE volunteers_id = ?
-    `);
-
-    const row = stmt.get(volunteerId);
-    res.status(200).json(row);
-});
 
 app.post('/collect', (req, res) => {
   res.status(201).json({ status: "collect ajouté" });
