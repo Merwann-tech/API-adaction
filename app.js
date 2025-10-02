@@ -14,15 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.get('/association', (req, res) => {
-  try {
-    const stmt = db.prepare(`SELECT * FROM association`);
-    const associations = stmt.all();
-    res.status(200).json(associations);
-  } catch (error) {
-    res.status(500).json({ erreur: error.message });
-  }
-})
+
 
 
 app.post('/collect', (req, res) => {
