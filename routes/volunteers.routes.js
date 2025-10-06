@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { listVolunteers, getVolunteerPoints, getVolunteerByID} = require('../services/volunteerServices');
-
+const { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer} = require('../services/volunteerServices');
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
 router.get('/', (req, res) => {
   const name = listVolunteers()
@@ -20,4 +21,8 @@ router.get('/:id', (req, res) => {
     res.status(200).json(row);
 });
 
+router.post('/', (req, res) => {
+    addVolunteer(req.body)
+    res.status(201).send('Volunteer added');
+});
 module.exports = router;

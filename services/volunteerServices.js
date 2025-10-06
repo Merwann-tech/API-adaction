@@ -23,6 +23,18 @@ function getVolunteerPoints(volunteerId) {
     return row;
 };
 
+function addVolunteer(volunteerData) {
+    const stmt = db.prepare('INSERT INTO volunteer (firstname, lastname, email, password, city_id, current_donation_point, spend_donation_point, total_donation_point) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',)
+    stmt.run(
+        volunteerData.firstname,
+        volunteerData.lastname,
+        volunteerData.email,
+        volunteerData.password,
+        volunteerData.city_id,
+        0,
+        0,
+        0
+    );
+};
 
-
-module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID };
+module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer };
