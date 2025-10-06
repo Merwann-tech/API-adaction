@@ -37,4 +37,9 @@ function addVolunteer(volunteerData) {
     );
 };
 
-module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer };
+function deleteVolunteer(volunteerId) {
+    const stmt = db.prepare('DELETE FROM volunteer WHERE volunteers_id = ?');
+    stmt.run(volunteerId);
+};
+
+module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer };
