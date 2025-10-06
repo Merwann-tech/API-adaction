@@ -42,4 +42,16 @@ function deleteVolunteer(volunteerId) {
     stmt.run(volunteerId);
 };
 
-module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer };
+function editeVolunteer(volunteerId,volunteerData) {
+    const stmt = db.prepare('UPDATE volunteer SET firstname = ?, lastname = ?, email = ?, password = ?, city_id = ? WHERE volunteers_id = ?');
+    stmt.run(
+        volunteerData.firstname,
+        volunteerData.lastname,
+        volunteerData.email,
+        volunteerData.password,
+        volunteerData.city_id,
+        volunteerId
+    )  
+} 
+
+module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer , editeVolunteer};

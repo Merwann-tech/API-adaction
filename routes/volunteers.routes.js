@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer} = require('../services/volunteerServices');
+const { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer , editeVolunteer} = require('../services/volunteerServices');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
@@ -31,4 +31,11 @@ router.delete('/:id', (req, res) => {
     deleteVolunteer(volunteerId);
     res.status(200).send('Volunteer deleted');
 });
+
+router.put('/:id', (req, res) => {
+    const volunteerId = Number(req.params.id);
+    editeVolunteer(volunteerId,req.body);
+    res.status(200).send('Volunteer updated');
+});
+
 module.exports = router;
