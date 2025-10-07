@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3001
 const routes = require('./routes')
 const { notFound } = require('./middlewares/notFound')
-
+const cors = require("cors");
+app.use(cors());
 
 app.use('/', routes)
 app.use(notFound)
