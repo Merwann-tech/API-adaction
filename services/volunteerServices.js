@@ -32,17 +32,23 @@ function getVolunteerPoints(volunteerId) {
 };
 
 function addVolunteer(volunteerData) {
-    const stmt = db.prepare('INSERT INTO volunteer (firstname, lastname, email, password, city_id, current_donation_point, spend_donation_point, total_donation_point) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',)
-    stmt.run(
-        volunteerData.firstname,
-        volunteerData.lastname,
-        volunteerData.email,
-        volunteerData.password,
-        volunteerData.city_id,
-        0,
-        0,
-        0
-    );
+    let city = capitalize(volunteerData.city)
+    db.exec(`
+        INSERT INTO city (name)
+        SELECT '${city}'
+        WHERE NOT EXISTS (SELECT 1 FROM city WHERE name = '${city}');`)
+    db.exec(`
+        INSERT INTO volunteer (firstname, lastname, email, password, city_id,current_donation_point, spend_donation_point, total_donation_point)
+        VALUES (
+            '${volunteerData.firstname}',
+            '${volunteerData.lastname}',
+            '${volunteerData.email}',
+            '${volunteerData.password}',
+            (SELECT city_id FROM city WHERE name = '${city}'),
+            0,
+            0,
+            0
+        );`,)
 };
 
 function deleteVolunteer(volunteerId) {
@@ -62,6 +68,12 @@ function editeVolunteer(volunteerId, volunteerData) {
         volunteerData.city_id,
         volunteerId
     )
+}
+
+function capitalize(city){
+    let cityLower = city.toLowerCase()
+    let cityCapitalize = cityLower[0].toUpperCase() + cityLower.slice(1)
+    return cityCapitalize
 }
 
 module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer };
