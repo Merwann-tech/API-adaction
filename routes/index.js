@@ -7,8 +7,10 @@ const dashboard = require('./dashboard.routes');
 const association = require('./association.routes');
 const collect = require('./collect.routes');
 const login = require('./login.routes');
+const token = require('./token.routes');
 
 
+router.use('/token', token);
 router.use('/volunteers', volunteers);
 router.use('/donation', donation);
 router.use('/dashboard', dashboard);
