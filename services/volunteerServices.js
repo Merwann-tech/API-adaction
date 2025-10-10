@@ -44,11 +44,12 @@ function getVolunteerPoints(volunteerId) {
 async function addVolunteer(volunteerData) {
     let city = capitalize(volunteerData.city)
     let hashedPassword = await hashPassword(volunteerData.password)
-    db.exec(`
+    if (verifyEmail(volunteerData.email) <= 0) {
+        db.exec(`
         INSERT INTO city (name)
         SELECT '${city}'
         WHERE NOT EXISTS (SELECT 1 FROM city WHERE name = '${city}');`)
-    db.exec(`
+        db.exec(`
         INSERT INTO volunteer (firstname, lastname, email, password, city_id,current_donation_point, spend_donation_point, total_donation_point)
         VALUES (
             '${volunteerData.firstname}',
@@ -60,6 +61,10 @@ async function addVolunteer(volunteerData) {
             0,
             0
         );`,)
+        return { success: "volunteer add" }
+    } else {
+        return { error: "Email already exists" }
+    }
 };
 
 function deleteVolunteer(volunteerId) {
@@ -71,13 +76,15 @@ function deleteVolunteer(volunteerId) {
 
 async function editeVolunteer(volunteerId, volunteerData) {
     let city = capitalize(volunteerData.city)
-    if (volunteerData.password != "") {
-        let hashedPassword = await hashPassword(volunteerData.password)
-        db.exec(`
+    let currentEmail = getemail(volunteerId)
+    if (currentEmail === volunteerData.email) {
+        if (volunteerData.password != "") {
+            let hashedPassword = await hashPassword(volunteerData.password)
+            db.exec(`
         INSERT INTO city (name)
         SELECT '${city}'
         WHERE NOT EXISTS (SELECT 1 FROM city WHERE name = '${city}');`)
-        let stmt = db.prepare(`
+            let stmt = db.prepare(`
           UPDATE volunteer SET 
             firstname = ?, 
             lastname = ?, 
@@ -86,20 +93,20 @@ async function editeVolunteer(volunteerId, volunteerData) {
             city_id = (SELECT city_id FROM city WHERE name = ?)
           WHERE volunteers_id = ?
         `);
-        stmt.run(
-            volunteerData.firstname,
-            volunteerData.lastname,
-            volunteerData.email,
-            hashedPassword,
-            city,
-            volunteerId
-        )
-    } else {
-        db.exec(`
+            stmt.run(
+                volunteerData.firstname,
+                volunteerData.lastname,
+                volunteerData.email,
+                hashedPassword,
+                city,
+                volunteerId
+            )
+        } else {
+            db.exec(`
         INSERT INTO city (name)
         SELECT '${city}'
         WHERE NOT EXISTS (SELECT 1 FROM city WHERE name = '${city}');`)
-        let stmt = db.prepare(`
+            let stmt = db.prepare(`
           UPDATE volunteer SET 
             firstname = ?, 
             lastname = ?, 
@@ -107,21 +114,84 @@ async function editeVolunteer(volunteerId, volunteerData) {
             city_id = (SELECT city_id FROM city WHERE name = ?)
           WHERE volunteers_id = ?
         `);
-        stmt.run(
-            volunteerData.firstname,
-            volunteerData.lastname,
-            volunteerData.email,
-            city,
-            volunteerId
-        )
+            stmt.run(
+                volunteerData.firstname,
+                volunteerData.lastname,
+                volunteerData.email,
+                city,
+                volunteerId
+            )
 
+        }
+        return { success: "volunteer updated" }
     }
-}
+    else if (verifyEmail(volunteerData.email) <= 0) {
+        if (volunteerData.password != "") {
+            let hashedPassword = await hashPassword(volunteerData.password)
+            db.exec(`
+        INSERT INTO city (name)
+        SELECT '${city}'
+        WHERE NOT EXISTS (SELECT 1 FROM city WHERE name = '${city}');`)
+            let stmt = db.prepare(`
+          UPDATE volunteer SET 
+            firstname = ?, 
+            lastname = ?, 
+            email = ?, 
+            password = ?, 
+            city_id = (SELECT city_id FROM city WHERE name = ?)
+          WHERE volunteers_id = ?
+        `);
+            stmt.run(
+                volunteerData.firstname,
+                volunteerData.lastname,
+                volunteerData.email,
+                hashedPassword,
+                city,
+                volunteerId
+            )
+        } else {
+            db.exec(`
+        INSERT INTO city (name)
+        SELECT '${city}'
+        WHERE NOT EXISTS (SELECT 1 FROM city WHERE name = '${city}');`)
+            let stmt = db.prepare(`
+          UPDATE volunteer SET 
+            firstname = ?, 
+            lastname = ?, 
+            email = ?, 
+            city_id = (SELECT city_id FROM city WHERE name = ?)
+          WHERE volunteers_id = ?
+        `);
+            stmt.run(
+                volunteerData.firstname,
+                volunteerData.lastname,
+                volunteerData.email,
+                city,
+                volunteerId
+            )
+
+        }
+        return { success: "volunteer updated" }
+    } else {
+        return { error: "Email already exists" }
+    }
+};
 
 function capitalize(city) {
     let cityLower = city.toLowerCase()
     let cityCapitalize = cityLower[0].toUpperCase() + cityLower.slice(1)
     return cityCapitalize
+}
+
+function verifyEmail(email) {
+    const stmt = db.prepare('SELECT COUNT(*) FROM volunteer WHERE email = ?');
+    const volunteer = stmt.get(email);
+    return volunteer['COUNT(*)'];
+}
+function getemail(id) {
+    const stmt = db.prepare('SELECT email FROM volunteer WHERE volunteers_id = ?');
+    const email = stmt.get(id);
+    return email['email'];
 }
 
 module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer };

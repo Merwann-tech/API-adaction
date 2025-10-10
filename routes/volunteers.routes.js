@@ -21,9 +21,9 @@ router.get('/:id', (req, res) => {
     res.status(200).json(row);
 });
 
-router.post('/', (req, res) => {
-    addVolunteer(req.body)
-    res.status(201).send('Volunteer added');
+router.post('/', async (req, res) => {
+    let response = await addVolunteer(req.body)
+    res.status(201).json(response);
 });
 
 router.delete('/:id', (req, res) => {
@@ -32,10 +32,10 @@ router.delete('/:id', (req, res) => {
     res.status(200).send('Volunteer deleted');
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     const volunteerId = Number(req.params.id);
-    editeVolunteer(volunteerId,req.body);
-    res.status(200).send('Volunteer updated');
+    let response = await editeVolunteer(volunteerId,req.body);
+    res.status(200).json(response);
 });
 
 module.exports = router;

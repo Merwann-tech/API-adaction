@@ -11,7 +11,7 @@ CREATE TABLE volunteer (
     volunteers_id INTEGER PRIMARY KEY AUTOINCREMENT,
     firstname TEXT NOT NULL,
     lastname TEXT NOT NULL,
-    email TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     city_id INTEGER NOT NULL,
     current_donation_point INTEGER,
