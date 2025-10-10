@@ -193,5 +193,14 @@ function getemail(id) {
     const email = stmt.get(id);
     return email['email'];
 }
-
-module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer };
+function getPasswordByEmail(email) {
+    const stmt = db.prepare('SELECT password FROM volunteer WHERE email = ?');
+    const user = stmt.get(email);
+    return user['password'];
+}
+function getIdByEmail(email) {
+    const stmt = db.prepare('SELECT volunteers_id FROM volunteer WHERE email = ?');
+    const user = stmt.get(email);
+    return user['volunteers_id'];
+}   
+module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer,getPasswordByEmail,getIdByEmail };
