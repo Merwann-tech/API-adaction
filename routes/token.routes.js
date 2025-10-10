@@ -5,7 +5,7 @@ const { verifyToken } = require('../services/tokenServices');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     let token = verifyToken(req.body.token)
     if (token !=null){
         if (token.id == 1){

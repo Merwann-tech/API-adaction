@@ -11,7 +11,7 @@ async function loginVolunteer(email, password) {
         let token = createToken(jsonid)
         return { 
             message: 'Login successful',
-            token : token
+            token : token,
          };
     } else {
         return { error: 'Invalid email or password' };
