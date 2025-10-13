@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer , editeVolunteer} = require('../services/volunteerServices');
+const {verifyToken }= require('../services/tokenServices');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
@@ -19,6 +20,17 @@ router.get('/:id', (req, res) => {
     const volunteerId = Number(req.params.id);
     const row = getVolunteerByID(volunteerId);
     res.status(200).json(row);
+});
+
+router.get('/token/:token', async (req, res) => {
+    const id = await verifyToken(req.params.token);
+    if (id === null ) {
+        res.status(401).send('Invalid token');
+    }else{
+    const volunteerId = Number(id.id);
+    const row = getVolunteerByID(volunteerId);
+    res.status(200).json(row);
+    }
 });
 
 router.post('/', async (req, res) => {

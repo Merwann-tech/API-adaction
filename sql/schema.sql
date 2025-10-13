@@ -39,12 +39,12 @@ CREATE TABLE collect (
     volunteer_id INTEGER NOT NULL,
     date TEXT NOT NULL, -- SQLite stocke les dates comme TEXT, REAL ou INTEGER (ici TEXT est courant)
     city_id INTEGER NOT NULL,
-    nb_butt INTEGER,
-    nb_plastic INTEGER,
-    nb_glass INTEGER,
-    nb_metal INTEGER,
-    nb_electronic INTEGER,
-    nb_other INTEGER,
+    nb_butt INTEGER DEFAULT 0,
+    nb_plastic INTEGER DEFAULT 0,
+    nb_glass INTEGER DEFAULT 0,
+    nb_metal INTEGER DEFAULT 0,
+    nb_electronic INTEGER DEFAULT 0,
+    nb_other INTEGER DEFAULT 0,
     FOREIGN KEY (city_id) REFERENCES city(city_id),
     FOREIGN KEY (volunteer_id) REFERENCES volunteer(volunteers_id)
 );
