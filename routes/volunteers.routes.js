@@ -10,10 +10,15 @@ router.get('/', (req, res) => {
   res.send(name)
 })
 
-router.get('/point/:id', (req, res) => {
-    const volunteerId = Number(req.params.id);
+router.get('/point/:token', async (req, res) => {
+    const id = await verifyToken(req.params.token);
+    if (id === null ) {
+        res.status(401).send('Invalid token');
+    }else{
+    const volunteerId = Number(id.id);
     const row = getVolunteerPoints(volunteerId);
     res.status(200).json(row);
+    }
 });
 
 router.get('/:id', (req, res) => {
