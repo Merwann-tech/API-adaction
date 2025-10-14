@@ -8,8 +8,9 @@ const association = require('./association.routes');
 const collect = require('./collect.routes');
 const login = require('./login.routes');
 const token = require('./token.routes');
+const city = require('./city.routes');
 
-
+router.use('/city', city);
 router.use('/token', token);
 router.use('/volunteers', volunteers);
 router.use('/donation', donation);

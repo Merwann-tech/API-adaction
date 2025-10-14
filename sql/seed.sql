@@ -17,6 +17,7 @@ INSERT INTO association (name, description, donation_value, image) VALUES
 ('Clean Air Initiative', 'Lutte contre la pollution de l''air et promotion des énergies propres.', 120,'🌬️');
 
 
+
 INSERT INTO volunteer 
 (firstname, lastname, email, password, city_id, current_donation_point, spend_donation_point, total_donation_point)
 VALUES

@@ -203,4 +203,4 @@ function getIdByEmail(email) {
     const user = stmt.get(email);
     return user['volunteers_id'];
 }   
-module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer,getPasswordByEmail,getIdByEmail };
+module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer,getPasswordByEmail,getIdByEmail,verifyEmail };
