@@ -79,4 +79,15 @@ router.put('/:id', async (req, res) => {
     res.status(200).json(response);
 });
 
+router.put('/token/:token', async (req, res) => {
+    const id = await verifyToken(req.params.token);
+    if (id === null) {
+        res.status(401).send('Invalid token');
+    } else {
+    const volunteerId = Number(id.id);
+    let response = await editeVolunteer(volunteerId, req.body);
+    res.status(200).json(response);
+    }
+});
+
 module.exports = router;
