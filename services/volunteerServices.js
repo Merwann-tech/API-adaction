@@ -14,6 +14,51 @@ function listVolunteers() {
     return name.all()
 };
 
+function listVolunteersByCity(city) {
+    let name = db.prepare(`SELECT 
+    v.volunteers_id,
+    v.firstname,
+    v.lastname,
+    v.email,
+    c.name AS city
+    FROM volunteer AS v
+    JOIN city AS c 
+    ON v.city_id = c.city_id
+    WHERE c.name = ?;`)
+    return name.all(city)
+};
+
+function listVolunteersByName(firstname) {
+    let name = db.prepare(`SELECT 
+    v.volunteers_id,
+    v.firstname,
+    v.lastname,
+    v.email,
+    c.name AS city
+    FROM volunteer AS v
+    JOIN city AS c 
+    ON v.city_id = c.city_id
+    WHERE LOWER(v.firstname) LIKE LOWER(?)`)
+    return name.all(`%${firstname}%`)
+};
+
+function listVolunteersByNameAndCity(firstname, city) {
+    let name = db.prepare(`SELECT 
+    v.volunteers_id,
+    v.firstname,
+    v.lastname,
+    v.email,
+    c.name AS city
+    FROM volunteer AS v
+    JOIN city AS c 
+    ON v.city_id = c.city_id
+    WHERE LOWER(v.firstname) LIKE LOWER(?)
+    AND c.name = ?;`)
+    return name.all(`%${firstname}%`, city)
+};
+
+
+
 function getVolunteerByID(volunteerId) {
     const volunteer = db.prepare(`SELECT 
     v.volunteers_id,
@@ -202,5 +247,18 @@ function getIdByEmail(email) {
     const stmt = db.prepare('SELECT volunteers_id FROM volunteer WHERE email = ?');
     const user = stmt.get(email);
     return user['volunteers_id'];
-}   
-module.exports = { listVolunteers, getVolunteerPoints, getVolunteerByID, addVolunteer, deleteVolunteer, editeVolunteer,getPasswordByEmail,getIdByEmail,verifyEmail };
+}
+module.exports = {
+    listVolunteers,
+    getVolunteerPoints,
+    getVolunteerByID,
+    addVolunteer,
+    deleteVolunteer,
+    editeVolunteer,
+    getPasswordByEmail,
+    getIdByEmail,
+    verifyEmail,
+    listVolunteersByCity,
+    listVolunteersByName,
+    listVolunteersByNameAndCity
+};
