@@ -9,7 +9,9 @@ const collect = require('./collect.routes');
 const login = require('./login.routes');
 const token = require('./token.routes');
 const city = require('./city.routes');
+const leaderboard = require('./leaderboard.routes');
 
+router.use('/leaderboard', leaderboard);
 router.use('/city', city);
 router.use('/token', token);
 router.use('/volunteers', volunteers);

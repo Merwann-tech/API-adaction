@@ -8,7 +8,8 @@ const { listVolunteers,
     editeVolunteer,
     listVolunteersByCity,
     listVolunteersByName,
-    listVolunteersByNameAndCity } = require('../services/volunteerServices');
+    listVolunteersByNameAndCity,
+    getLeaderboard } = require('../services/volunteerServices');
 const { verifyToken } = require('../services/tokenServices');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -89,5 +90,7 @@ router.put('/token/:token', async (req, res) => {
     res.status(200).json(response);
     }
 });
+
+
 
 module.exports = router;

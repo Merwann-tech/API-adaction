@@ -1,6 +1,9 @@
 const { db } = require('../db');
 const { hashPassword, verifyPassword } = require('../services/passwordServices');
 
+
+
+
 function listVolunteers() {
     let name = db.prepare(`SELECT 
     v.volunteers_id,
@@ -260,5 +263,5 @@ module.exports = {
     verifyEmail,
     listVolunteersByCity,
     listVolunteersByName,
-    listVolunteersByNameAndCity
+    listVolunteersByNameAndCity,
 };
