@@ -41,8 +41,9 @@ function listVolunteersByName(firstname) {
     FROM volunteer AS v
     JOIN city AS c 
     ON v.city_id = c.city_id
-    WHERE LOWER(v.firstname) LIKE LOWER(?)`)
-    return name.all(`%${firstname}%`)
+    WHERE LOWER(v.firstname) LIKE LOWER(?)
+    OR LOWER(v.lastname) LIKE LOWER(?);`)
+    return name.all(`%${firstname}%`,`%${firstname}%`)
 };
 
 function listVolunteersByNameAndCity(firstname, city) {
@@ -56,8 +57,9 @@ function listVolunteersByNameAndCity(firstname, city) {
     JOIN city AS c 
     ON v.city_id = c.city_id
     WHERE LOWER(v.firstname) LIKE LOWER(?)
+    OR LOWER(v.lastname) LIKE LOWER(?)
     AND c.name = ?;`)
-    return name.all(`%${firstname}%`, city)
+    return name.all(`%${firstname}%`,`%${firstname}%`, city)
 };
 
 
