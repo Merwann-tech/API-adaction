@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const ACCESS_SECRET = process.env.ACCESS_SECRET || 'admin';
 
 function createToken(payload) {
-    return jwt.sign(payload, ACCESS_SECRET, { algorithm: 'HS256', expiresIn: '15min' });
+    return jwt.sign(payload, ACCESS_SECRET, { algorithm: 'HS256', expiresIn: '30min' });
 }
 
 
