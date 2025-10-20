@@ -9,73 +9,62 @@ const { listVolunteers,
     listVolunteersByCity,
     listVolunteersByName,
     listVolunteersByNameAndCity,
-     } = require('../services/volunteerServices');
+} = require('../services/volunteerServices');
 const { verifyToken } = require('../services/tokenServices');
-const { verifyTokenVolunteer,verifyTokenAdmin } = require('../middlewares/auth');
+const { verifyTokenVolunteer, verifyTokenAdmin } = require('../middlewares/auth');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.get('/',verifyTokenAdmin, (req, res) => {
+router.get('/', verifyTokenAdmin, (req, res) => {
     const name = listVolunteers()
     res.status(200).json(name)
 })
 
-router.get('/city/:city',verifyTokenAdmin, (req, res) => {
+router.get('/city/:city', verifyTokenAdmin, (req, res) => {
     const name = listVolunteersByCity(req.params.city)
     res.status(200).json(name)
 })
 
-router.get('/city/:city/name/:name/',verifyTokenAdmin, (req, res) => {
+router.get('/city/:city/name/:name/', verifyTokenAdmin, (req, res) => {
     const name = listVolunteersByNameAndCity(req.params.name, req.params.city)
     res.status(200).json(name)
 })
 
-router.get('/name/:name',verifyTokenAdmin, (req, res) => {
+router.get('/name/:name', verifyTokenAdmin, (req, res) => {
     const name = listVolunteersByName(req.params.name)
     res.status(200).json(name)
 })
 
 
-router.get('/point/:token', async (req, res) => {
-    const id = await verifyToken(req.params.token);
-    if (id === null) {
-        res.status(401).send('Invalid token');
-    } else {
-        const volunteerId = Number(id.id);
-        const row = getVolunteerPoints(volunteerId);
-        res.status(200).json(row);
-    }
+router.get('/point',verifyTokenVolunteer, async (req, res) => {
+    const row = getVolunteerPoints(req.volunteerId);
+    res.status(200).json(row);
 });
 
-router.get('/:id',verifyTokenAdmin, (req, res) => {
+router.get('/id/:id', verifyTokenAdmin, (req, res) => {
     const volunteerId = Number(req.params.id);
     const row = getVolunteerByID(volunteerId);
     res.status(200).json(row);
 });
 
-router.get('/token/:token', async (req, res) => {
-    const id = await verifyToken(req.params.token);
-    if (id === null) {
-        res.status(401).send('Invalid token');
-    } else {
-        const volunteerId = Number(id.id);
-        const row = getVolunteerByID(volunteerId);
-        res.status(200).json(row);
-    }
+router.get('/token', verifyTokenVolunteer, async (req, res) => {
+    const volunteerId = Number(req.volunteerId);
+    const row = getVolunteerByID(volunteerId);
+    res.status(200).json(row);
 });
 
-router.post('/',verifyTokenAdmin, async (req, res) => {
+router.post('/', verifyTokenAdmin, async (req, res) => {
     let response = await addVolunteer(req.body)
     res.status(201).json(response);
 });
 
-router.delete('/:id',verifyTokenAdmin, (req, res) => {
+router.delete('/:id', verifyTokenAdmin, (req, res) => {
     const volunteerId = Number(req.params.id);
     deleteVolunteer(volunteerId);
     res.status(200).send('Volunteer deleted');
 });
 
-router.put('/:id',verifyTokenAdmin, async (req, res) => {
+router.put('id/:id', verifyTokenAdmin, async (req, res) => {
     const volunteerId = Number(req.params.id);
     let response = await editeVolunteer(volunteerId, req.body);
     res.status(200).json(response);
@@ -86,9 +75,9 @@ router.put('/token/:token', async (req, res) => {
     if (id === null) {
         res.status(401).send('Invalid token');
     } else {
-    const volunteerId = Number(id.id);
-    let response = await editeVolunteer(volunteerId, req.body);
-    res.status(200).json(response);
+        const volunteerId = Number(id.id);
+        let response = await editeVolunteer(volunteerId, req.body);
+        res.status(200).json(response);
     }
 });
 
