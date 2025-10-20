@@ -9,7 +9,7 @@ const { listVolunteers,
     listVolunteersByCity,
     listVolunteersByName,
     listVolunteersByNameAndCity,
-    getLeaderboard } = require('../services/volunteerServices');
+     } = require('../services/volunteerServices');
 const { verifyToken } = require('../services/tokenServices');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));

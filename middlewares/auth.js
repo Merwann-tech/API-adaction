@@ -33,7 +33,10 @@ function verifyTokenAdmin(req, res, next) {
     }
 
     const decoded = verifyToken(token);
-    if (decoded.id == idAdmin) {
+    if (decoded === null) {
+        return res.status(403).json({ message: "Token invalide ou expiré" });
+    }
+    else if (decoded.id == idAdmin) {
         req.volunteerId = decoded.id;
         next()
     } else {
