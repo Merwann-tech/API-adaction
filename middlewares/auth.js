@@ -2,7 +2,7 @@
 const { verifyToken } = require('../services/tokenServices');
 const idAdmin = process.env.idAdmin || 1
 
-function verifyTokenVolunnter(req, res, next) {
+function verifyTokenVolunteer(req, res, next) {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader) {
@@ -46,4 +46,4 @@ function verifyTokenAdmin(req, res, next) {
 }
 
 
-module.exports = { verifyTokenVolunnter, verifyTokenAdmin };
+module.exports = { verifyTokenVolunteer, verifyTokenAdmin };
