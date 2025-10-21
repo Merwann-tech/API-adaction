@@ -138,7 +138,6 @@ async function editeVolunteer(volunteerId, volunteerData) {
           UPDATE volunteer SET 
             firstname = ?, 
             lastname = ?, 
-            email = ?, 
             password = ?, 
             city_id = (SELECT city_id FROM city WHERE name = ?)
           WHERE volunteers_id = ?
@@ -146,7 +145,6 @@ async function editeVolunteer(volunteerId, volunteerData) {
             stmt.run(
                 volunteerData.firstname,
                 volunteerData.lastname,
-                volunteerData.email,
                 hashedPassword,
                 city,
                 volunteerId
@@ -160,14 +158,12 @@ async function editeVolunteer(volunteerId, volunteerData) {
           UPDATE volunteer SET 
             firstname = ?, 
             lastname = ?, 
-            email = ?, 
             city_id = (SELECT city_id FROM city WHERE name = ?)
           WHERE volunteers_id = ?
         `);
             stmt.run(
                 volunteerData.firstname,
                 volunteerData.lastname,
-                volunteerData.email,
                 city,
                 volunteerId
             )
