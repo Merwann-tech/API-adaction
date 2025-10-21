@@ -43,6 +43,9 @@ Adaptez les valeurs selon vos besoins.
 
 ## Démarrage
 
+Pour démarrer l'application Node.js, assurez-vous que toutes les dépendances sont installées et que le fichier `.env` est correctement configuré. Ensuite, lancez la commande suivante :
+
+```bash
 node app.js
 ```
 
