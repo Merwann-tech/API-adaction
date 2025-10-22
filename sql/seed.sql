@@ -17,8 +17,8 @@ INSERT INTO association (name, description, donation_value, image) VALUES
 ('Clean Air Initiative', 'Lutte contre la pollution de l''air et promotion des énergies propres.', 120,'🌬️');
 
 
-cette ligne genere un compte admin qui a pour mdp 1234
+-- cette ligne genere un compte admin qui a pour mdp 1234
 INSERT INTO volunteer 
 (firstname, lastname, email, password, city_id, current_donation_point, spend_donation_point, total_donation_point)
 VALUES
-('admin', 'admin', 'admin.admin@admin.com', '$argon2id$v=19$m=65536,t=3,p=4$k07c8Ot270p8gYQ+mPEfAg$Lc6dhSgek7E/cTk4pv4ISFBrZxdqep6uJfzkcqQZFxo', 1, 0, 0, 0);
+('admin', 'admin', 'admin@admin.com', '$argon2id$v=19$m=65536,t=3,p=4$k07c8Ot270p8gYQ+mPEfAg$Lc6dhSgek7E/cTk4pv4ISFBrZxdqep6uJfzkcqQZFxo', 1, 0, 0, 0);
