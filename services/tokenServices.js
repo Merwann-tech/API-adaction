@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+require('dotenv').config();
 const ACCESS_SECRET = process.env.ACCESS_SECRET || 'admin';
 
 function createToken(payload) {

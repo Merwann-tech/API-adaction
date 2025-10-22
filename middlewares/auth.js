@@ -1,4 +1,4 @@
-
+require('dotenv').config();
 const { verifyToken } = require('../services/tokenServices');
 const idAdmin = process.env.idAdmin || 1
 
