@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { verifyToken } = require('../services/tokenServices');
+require('dotenv').config();
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
